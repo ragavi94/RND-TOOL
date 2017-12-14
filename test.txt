@@ -1,9 +1,11 @@
-<<<<<<< HEAD
+
 THIs
 The OpenStack group.
-=======
 
-Changes made by sagarwa7
->>>>>>> 38eb2c558438d972c7a5563cfc74680aca101232
+Hi Nitesh here
+Hi This is Ashlesha making changes. 
+Changes made by sagarwal
+
+
 Change Made by rjain11
 
