@@ -47,6 +47,37 @@ for i in range(1,(node_num+1)):
                         current_octet=current_octet+1
 
                         file.write(nodes[i-1] +" "+ port1 + " ("+port1_ip+") --- "+nodes[j-1]+" "+ port2+ " ("+port2_ip+")\n")
+                        
+                elif current_node[j] == "2":
+                    os.system("sudo ip link add vport1 type veth peer name vport2")
+                    os.system("sudo ip link add vport3 type veth peer name vport4")
+                    port1 = "eth"+str(j)+"1"
+                    port2 = "eth"+str(i)+"1"
+                    port3 = "eth"+str(j)+"2"
+                    port4 = "eth"+str(i)+"2"
+                    port1_ip = "192.168."+str(current_octet)+"."+str(base_ip)+"/24"
+                    port2_ip = "192.168."+str(current_octet)+"."+str(base_ip+1)+"/24"
+                    
+                    current_octet=current_octet+1
+                    
+                    port3_ip = "192.168."+str(current_octet)+"."+str(base_ip)+"/24"
+                    port4_ip = "192.168."+str(current_octet)+"."+str(base_ip+1)+"/24"
+                    
+                    
+                    os.system("sudo ip link set dev vport1 netns "+pids[i]+" name "+port1+" up")
+                    os.system("sudo ip link set dev vport3 netns "+pids[i]+" name "+port3+" up")
+                    os.system("sudo ip link set dev vport2 netns "+pids[j]+" name "+port2+" up")
+                    os.system("sudo ip link set dev vport4 netns "+pids[j]+" name "+port4+" up")
+                    os.system("sudo docker exec "+nodes[i-1]+" ip addr add "+port1_ip+" dev "+port1)
+                    os.system("sudo docker exec "+nodes[i-1]+" ip addr add "+port3_ip+" dev "+port3)
+                    os.system("sudo docker exec "+nodes[j-1]+" ip addr add "+port2_ip+" dev "+port2)
+                    os.system("sudo docker exec "+nodes[j-1]+" ip addr add "+port4_ip+" dev "+port4)
+                    
+                    current_octet=current_octet+1
+
+                    file.write(nodes[i-1] +" "+ port1 + " ("+port1_ip+") --- "+nodes[j-1]+" "+ port2+ " ("+port2_ip+")\n")
+                    file.write(nodes[i-1] +" "+ port3 + " ("+port3_ip+") --- "+nodes[j-1]+" "+ port4+ " ("+port4_ip+")\n")
+                                        
 file.close()
 ## Start Quagga and ssh process and set ssh password on all Containers
 for i in nodes:
@@ -59,5 +90,4 @@ for i in nodes:
         child.sendline('root')
         child.expect('passwd: password updated successfully')
         child.expect('\n')
-
 
