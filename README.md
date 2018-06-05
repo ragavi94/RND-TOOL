@@ -1,5 +1,5 @@
-# RND-TOOL
-Execution:
+## RND-TOOL
+##Execution:
 1. If the customized ubuntu image is not built in the host before, build it by running the playbook, create_quagga_image.yml 
    sudo ansible-playbook create_quagga_image.yml -i inventory --extra-vars="ansible_sudo\pass=<sudo password>
 2. Modify the network adjacency matrix (./scripts/connectivitymat.txt) according to the required topology. Information of the connectivity      matrix is in ./readme/connectivity.txt
@@ -10,7 +10,7 @@ Execution:
 6. Once inside a router, to enter in the router CLI, type vtysh and hit enter.
 
 
-Packet capture:
+##Packet capture:
 
 In the directory where the file collect_capture.py is saved.
 Run command:
