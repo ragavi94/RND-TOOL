@@ -1,5 +1,12 @@
-## RND-TOOL
-##Execution:
+# RND-TOOL
+
+This is a project out of [EB2-2027 Reseach and Teaching Lab](https://sites.google.com/a/ncsu.edu/summer15eb22027/)
+
+## Table of Contents
+* [Running the RND Tool](#running-the-rnd-tool)
+* [Getting Packet Captures](#packet-capture)
+
+## Running the RND Tool:
 1. If the customized ubuntu image is not built in the host before, build it by running the playbook, create_quagga_image.yml 
    sudo ansible-playbook create_quagga_image.yml -i inventory --extra-vars="ansible_sudo\pass=<sudo password>
 2. Modify the network adjacency matrix (./scripts/connectivitymat.txt) according to the required topology. Information of the connectivity      matrix is in ./readme/connectivity.txt
@@ -10,7 +17,7 @@
 6. Once inside a router, to enter in the router CLI, type vtysh and hit enter.
 
 
-##Packet capture:
+## Packet Capture:
 
 In the directory where the file collect_capture.py is saved.
 Run command:
