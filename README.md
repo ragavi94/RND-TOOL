@@ -5,6 +5,7 @@ This is a project out of [EB2-2027 Reseach and Teaching Lab](https://sites.googl
 ## Table of Contents
 * [Running the RND Tool](#running-the-rnd-tool)
 * [Getting Packet Captures](#packet-capture)
+* [Contributing](#contributing)
 
 ## Running the RND Tool:
 1. If the customized ubuntu image is not built in the host before, build it by running the playbook, `create_quagga_image.yml`:
@@ -48,3 +49,11 @@ where:
   The file will be saved in the format:
   
   `filename=myhost+"_"+interface+"_"+timestamp+".pcap"`
+
+## Contributing
+
+1. Fork the repo.
+2. Create your own branch (`git checkout -b my-branch`)
+3. Commit your changes in the branch (`git commit -am "My Changes"`)
+4. Push your branch (`git push origin my-branch`)
+5. Send a pull request
