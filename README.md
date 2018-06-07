@@ -1,6 +1,8 @@
 # RND-TOOL
 
-This is a project out of [EB2-2027 Reseach and Teaching Lab](https://sites.google.com/a/ncsu.edu/summer15eb22027/)
+[![EB2-2027](https://img.shields.io/badge/EB2__2027-Since__2015-green.svg)](https://sites.google.com/a/ncsu.edu/summer15eb22027/)
+[![Latest Version](https://img.shields.io/badge/LatestVersion-v1.0-yellow.svg)](https://github.ncsu.edu/EB2-2027/RND-TOOL/releases/tag/v1.0)
+
 
 ## Table of Contents
 * [Running the RND Tool](#running-the-rnd-tool)
