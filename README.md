@@ -55,7 +55,13 @@ where:
 ## Contributing
 
 1. Fork the repo.
+2. [Follow the coding practice guideline](#coding-practice-guidelines)
 2. Create your own branch (`git checkout -b my-branch`)
 3. Commit your changes in the branch (`git commit -am "My Changes"`)
 4. Push your branch (`git push origin my-branch`)
 5. Send a pull request
+
+## Coding Practice Guidelines
+1. Commit Small Commit Often
+2. Always comment the code.
+3. Use Macros instead of hardcoded values.
