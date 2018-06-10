@@ -8,6 +8,7 @@
 * [Running the RND Tool](#running-the-rnd-tool)
 * [Getting Packet Captures](#packet-capture)
 * [Contributing](#contributing)
+* [Coding Practice Guidelines](#coding-practice-guidelines)
 
 ## Running the RND Tool:
 1. If the customized ubuntu image is not built in the host before, build it by running the playbook, `create_quagga_image.yml`:
