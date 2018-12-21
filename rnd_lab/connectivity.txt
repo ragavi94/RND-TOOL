@@ -1,3 +1,5 @@
+## previous input with matrix
+
 The adjacency matrix (~/scripts/connectivitymat.txt):
 1. A 2-D matrix with rows and column corresponding to the containers in the topology.
 2. Entry '1' in the ith column and jth row represents a link between port ethi of 

@@ -1,0 +1,97 @@
+topology_data['topology'].append({
+    'topology_type': 'test',
+    'device': device_dict
+})
+
+subprocess.Popen(" sudo docker inspect -f '{{.State.Status}}' "+current_node[0], stdout=subprocess.PIPE, shell=True) 
+
+
+sudo docker exec R1 ip -o link show | awk -F': ' '{print $2}'
+sudo docker exec R1 ip -f inet addr show eth21 $1 | grep -Po 'inet \K[\d.]+'
+
+
+curl -i -H "Content-Type: application/json" -X GET http://localhost:7000/topology_live_config
+
+
+curl -i -H "Content-Type: application/json" -X POST -d '{"device_name":"","interface_name":"","link":{"source_node":"R1","dest_node":"R2"}}' http://localhost:7000/search_topology
+curl -i -H "Content-Type: application/json" -X POST -d '{"device_name":"","interface_name":"","link":{"source_node":"R1","dest_node":"R2"}}' http://localhost:7000/search_topology
+
+curl -i -H "Content-Type: application/json" -X PUT http://localhost:7000/update_topology/delete \
+-d @- << EOF
+{
+            "device":{
+                    "device_image": "", 
+                    "password": "", 
+                    "interface": [
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }
+                    ], 
+                    "username": "", 
+                    "device_id": "", 
+                    "ipaddress": "", 
+                    "gateway": "", 
+                    "device_name": "R8"
+                }
+}
+EOF
+
+
+
+curl -i -H "Content-Type: application/json" -X PUT http://localhost:7000/update_topology/del_link \
+-d @- << EOF
+{
+        "device":"",
+        "link":{
+                    "source_intf_ip": "192.168.1.12/24",
+                    "source_intf": "",
+                    "dest_intf": "",
+                    "source_node": "R2",
+                    "metric": "test",
+                    "dest_intf_ip": "192.168.1.13/24",
+                    "dest_node": "R4",
+                    "link_type": "test",
+                    "link_id": "12345"
+               }
+}
+EOF
+
+
+curl -i -H "Content-Type: application/json" -X PUT http://localhost:7000/update_topology/add_interface \
+-d @- << EOF
+{
+            "device":{ 
+                    "interface": {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "eth54", 
+                            "interface_uid": ""
+                        }, 
+                    "device_name": "R2"
+                }
+}
+EOF
+
+		
+

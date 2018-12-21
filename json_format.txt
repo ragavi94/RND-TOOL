@@ -1,0 +1,35 @@
+topology 
+	- topoID
+	- network_type (OSPF/RIP)
+	- create time
+	- modified time
+	- device/node (each device would be a docker container) // should docker info be in a separate json file?    	
+		-devicename
+		-hostname
+		-deviceID/nodeid
+		-image
+		-gateway
+		-ipaddress 
+		-status
+		-docker_properties
+			-pid
+			-createdtime
+			-containerID
+			-property2
+		-interface
+			-interface type
+			-uid
+			-intfname
+	-link (between two devices/nodes)
+		-linkid
+		-linktype
+		-metric
+		-sourcenode
+		-sourceintf(tp)
+		-destnode
+		-destintf(tp)
+			
+			
+create a json from the connectivity matrix for the topology
+
+			

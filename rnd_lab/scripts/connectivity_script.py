@@ -4,26 +4,44 @@ from math import *
 import subprocess
 import os
 import pexpect
+import sys  
+sys.path.append("./scripts/")
+from json_utils import json_util
 
-with open('./scripts/connectivitymat.txt') as f:
-  connectivity_mat = f.read()
+device = []
+link = []
+json_obj = json_util()
+device, link, link_map = json_obj.read_input_json()
 
-## Reading the node names
-connectivity_mat_row = connectivity_mat.strip().split("\n")
-nodes = connectivity_mat_row[0].strip().split()
-node_num = len(nodes)
+node_num = len(device)
+veth_pairs_list = []
+device_intfs_list = []
+device_ip_list = []
+device_status_list = []
+
 
 ## Getting the PIDs of nodes
 pids=['pids']
 for i in range(0,node_num):
-  output = subprocess.Popen("sudo docker inspect -f '{{.State.Pid}}' "+nodes[i], stdout=subprocess.PIPE, shell=True)
+  output = subprocess.Popen("sudo docker inspect -f '{{.State.Pid}}' "+device[i]['device_name'], stdout=subprocess.PIPE, shell=True)
   (out, err) = output.communicate()
   pids.append(out.strip())
 ##
 
-open('./connectivity_map.txt', 'w').close() #Clear Previous data
-file =open('./connectivity_map.txt','a')
-file.write("Connections:\n")
+## Getting IP Addresses of Nodes
+ipaddr_list = ['ips']
+for i in range(0,node_num):
+  output = subprocess.Popen("sudo docker inspect -f '{{ .NetworkSettings.IPAddress }}' "+device[i]['device_name'], stdout=subprocess.PIPE, shell=True)
+  (out, err) = output.communicate()
+  ipaddr_list.append(out.strip())
+
+##
+
+
+
+open('/var/lib/rnd_lab/topology_conf.json', 'w').close() #Clear Previous data
+
+
 class vethports:
     current_octet=1
     base_ip=1
@@ -63,43 +81,60 @@ class vethports:
 #        out-discards = None                      
 #        out-errors = None
 
-for i in range(1,(node_num+1)):
-        current_node = connectivity_mat_row[i].strip().split()
 
-        for j in range(i,(node_num+1)):
-                if current_node[j] !="0":
-##THIS CREATES A LIST WITH OBJECTS OF CLASS vethports (EACH OBJECT IS ONE VETH PAIR) AND INITIALIZES THE OBJECTS WITH PORT NAMES AND IPS                    
-                    vethlist=[]
-                    for x in range(1,int(current_node[j])+1):
-                        portname1="eth"+str(j)+str(x)
-                        portname2="eth"+str(i)+str(x)
-                        vethlist.append(vethports(portname1,portname2))
+for key in sorted(link_map.iterkeys()):
+##THIS CREATES A LIST WITH OBJECTS OF CLASS vethports (EACH OBJECT IS ONE VETH PAIR) AND INITIALIZES THE OBJECTS WITH PORT NAMES AND IPS
+        print key
+        intf = key.split('-')
+        intf1 = intf[0]
+        intf2 = intf[1]
+        vethlist=[]
+        for x in range(1,link_map[key]+1):
+          portname1 = "eth"+intf2[-1]+str(x)  ## list[-1] to access the last char ie) device number
+          portname2 = "eth"+intf1[-1]+str(x)
+          vethlist.append(vethports(portname1,portname2))
+        veth_pairs_list.append(vethlist)
+##THIS WILL ADD EACH OBJECT TO THE RESPECTIVE NAMESPACES AND WRITE THE OUTPUT TO connectivity_map.txt
+        for vethobj in vethlist:
+          output = subprocess.Popen("sudo ip link add vport1 type veth peer name vport2", stdout=subprocess.PIPE, shell=True)
+          (out, err) = output.communicate()
+          output = subprocess.Popen("sudo ip link set dev vport1 netns "+pids[int(intf1[-1])]+" name "+vethobj.port1+" up", stdout=subprocess.PIPE, shell=True)
+          (out, err) = output.communicate()
+          output = subprocess.Popen("sudo ip link set dev vport2 netns "+pids[int(intf2[-1])]+" name "+vethobj.port2+" up", stdout=subprocess.PIPE, shell=True)
+          (out, err) = output.communicate()
+          output = subprocess.Popen("sudo docker exec "+intf1+" ip addr add "+vethobj.port1ip+" dev "+vethobj.port1, stdout=subprocess.PIPE, shell=True)
+          (out, err) = output.communicate()
+          output = subprocess.Popen("sudo docker exec "+intf2+" ip addr add "+vethobj.port2ip+" dev "+vethobj.port2, stdout=subprocess.PIPE, shell=True)
+          (out, err) = output.communicate()
+          
 
-                        
-##THIS WILL ADD EACH OBJECT TO THE RESPECTIVE NAMESPACES AND WRITE THE OUTPUT TO connectivity_map.txt                       
-                    for vethobj in vethlist:
-                        output = subprocess.Popen("sudo ip link add vport1 type veth peer name vport2", stdout=subprocess.PIPE, shell=True)
-                        (out, err) = output.communicate()
-                        output = subprocess.Popen("sudo ip link set dev vport1 netns "+pids[i]+" name "+vethobj.port1+" up", stdout=subprocess.PIPE, shell=True)
-                        (out, err) = output.communicate()
-                        output = subprocess.Popen("sudo ip link set dev vport2 netns "+pids[j]+" name "+vethobj.port2+" up", stdout=subprocess.PIPE, shell=True)
-                        (out, err) = output.communicate()
-                        output = subprocess.Popen("sudo docker exec "+nodes[i-1]+" ip addr add "+vethobj.port1ip+" dev "+vethobj.port1, stdout=subprocess.PIPE, shell=True)
-                        (out, err) = output.communicate()
-                        output = subprocess.Popen("sudo docker exec "+nodes[j-1]+" ip addr add "+vethobj.port2ip+" dev "+vethobj.port2, stdout=subprocess.PIPE, shell=True)
-                        (out, err) = output.communicate()
-                        file.write(nodes[i-1] +" "+ vethobj.port1 + " ("+vethobj.port1ip+") --- "+nodes[j-1]+" "+ vethobj.port2+ " ("+vethobj.port2ip+")\n")                            
-file.close()
-## Start Quagga and ssh process and set ssh password on all Containers
-for i in nodes:
-        os.system("sudo docker exec "+i+" /etc/init.d/quagga start")
-        os.system("sudo docker exec "+i+" /etc/init.d/ssh start")
-        child =pexpect.spawn("sudo docker exec -i -t "+i+" passwd root")
+## This block uses docker commands to get ipaddr,management ips, status of the device etc from the created live topology. These data are sent as lists to the json_utils file to form json
+for i in range(1,len(device)+1):
+	device_ip = []
+        device_intfs = (subprocess.Popen(" sudo docker exec "+ device[i-1]['device_name'] + " ip -o link show | awk -F': ' '{print $2}' ", stdout=subprocess.PIPE, shell=True)).communicate()[0].split('\n')
+	device_intfs_list.append(device_intfs)
+	for intf in range(0,len(device_intfs)-1):
+		device_ip.append((subprocess.Popen(" sudo docker exec "+ device[i-1]['device_name'] +" ip -f inet addr show "+ device_intfs[intf].split('@')[0] +" $1 | grep -Po 'inet \K[\d.]+' ", stdout=subprocess.PIPE, shell=True)).communicate()[0].split('\n'))
+	device_ip_list.append(device_ip)
+	device_status = (subprocess.Popen(" sudo docker inspect -f '{{.State.Status}}' "+device[i-1]['device_name'], stdout=subprocess.PIPE, shell=True)).communicate()
+	device_status_list.append(device_status[0].strip())
+	                    
+        
+#Start Quagga and ssh process and set ssh password on all Containers
+for i in range(0,len(device)):
+        os.system("sudo docker exec "+device[i]['device_name']+" /etc/init.d/quagga start")
+        os.system("sudo docker exec "+device[i]['device_name']+" /etc/init.d/ssh start")
+        child =pexpect.spawn("sudo docker exec -i -t "+device[i]['device_name']+" passwd root")
         child.expect('Enter new UNIX password:')
         child.sendline('root')
         child.expect('Retype new UNIX password:')
         child.sendline('root')
         child.expect('passwd: password updated successfully')
         child.expect('\n')
+
+
+json_obj.write_output_json(link_map,ipaddr_list,veth_pairs_list,device_intfs_list,device_ip_list,device_status_list)
+
+
 
 

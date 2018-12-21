@@ -1,0 +1,218 @@
+{
+    "topology": [
+        {
+            "link": [
+                {
+                    "source_intf_ip": "", 
+                    "source_intf": "", 
+                    "dest_intf": "", 
+                    "source_node": "R1", 
+                    "metric": "", 
+                    "dest_intf_ip": "", 
+                    "dest_node": "R2", 
+                    "link_type": "", 
+                    "link_id": ""
+                }, 
+                {
+                    "source_intf_ip": "", 
+                    "source_intf": "", 
+                    "dest_intf": "", 
+                    "source_node": "R1", 
+                    "metric": "", 
+                    "dest_intf_ip": "", 
+                    "dest_node": "R2", 
+                    "link_type": "", 
+                    "link_id": ""
+                }, 
+                {
+                    "source_intf_ip": "", 
+                    "source_intf": "", 
+                    "dest_intf": "", 
+                    "source_node": "R2", 
+                    "metric": "", 
+                    "dest_intf_ip": "", 
+                    "dest_node": "R3", 
+                    "link_type": "", 
+                    "link_id": ""
+                }, 
+                {
+                    "source_intf_ip": "", 
+                    "source_intf": "", 
+                    "dest_intf": "", 
+                    "source_node": "R2", 
+                    "metric": "", 
+                    "dest_intf_ip": "", 
+                    "dest_node": "R3", 
+                    "link_type": "", 
+                    "link_id": ""
+                }, 
+                {
+                    "source_intf_ip": "", 
+                    "source_intf": "", 
+                    "dest_intf": "", 
+                    "source_node": "R2", 
+                    "metric": "", 
+                    "dest_intf_ip": "", 
+                    "dest_node": "R3", 
+                    "link_type": "", 
+                    "link_id": ""
+                }, 
+                {
+                    "source_intf_ip": "", 
+                    "source_intf": "", 
+                    "dest_intf": "", 
+                    "source_node": "R2", 
+                    "metric": "", 
+                    "dest_intf_ip": "", 
+                    "dest_node": "R4", 
+                    "link_type": "", 
+                    "link_id": ""
+                }
+            ], 
+            "topology_type": "", 
+            "device": [
+                {
+                    "device_image": "", 
+                    "password": "", 
+                    "interface": [
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }
+                    ], 
+                    "username": "", 
+                    "device_id": "", 
+                    "ipaddress": "", 
+                    "gateway": "", 
+                    "device_name": "R1"
+                }, 
+				{
+                    "device_image": "", 
+                    "password": "", 
+                    "interface": [
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }
+                    ], 
+                    "username": "", 
+                    "device_id": "", 
+                    "ipaddress": "", 
+                    "gateway": "", 
+                    "device_name": "R2"
+                }, 
+				{
+                    "device_image": "", 
+                    "password": "", 
+                    "interface": [
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }
+                    ], 
+                    "username": "", 
+                    "device_id": "", 
+                    "ipaddress": "", 
+                    "gateway": "", 
+                    "device_name": "R3"
+                }, 
+				{
+                    "device_image": "", 
+                    "password": "", 
+                    "interface": [
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }, 
+                        {
+                            "interface_ip": "", 
+                            "interface_type": "", 
+                            "interface_name": "", 
+                            "interface_uid": ""
+                        }
+                    ], 
+                    "username": "", 
+                    "device_id": "", 
+                    "ipaddress": "", 
+                    "gateway": "", 
+                    "device_name": "R4"
+                }
+            ], 
+            "topology_id": "101"
+        }
+    ]
+}

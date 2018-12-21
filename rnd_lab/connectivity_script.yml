@@ -41,4 +41,18 @@
   - name: Run Script
     script: "{{playbook_dir}}/scripts/connectivity_script.py"
 
+##CronJob to monitor for updates
+  - name: change file permissions
+    file:
+      path: "{{playbook_dir}}/scripts/monitor_config.py"
+      mode: 0755
 
+  - name: Running the monitor script in the background every 15 seconds
+    cron:
+      name: "run monitor script"
+      minute: "*/1"
+      hour: "*"
+      day: "*"
+      weekday: "*"
+      month: "*"
+      job: "{{playbook_dir}}/scripts/monitor_config.py"

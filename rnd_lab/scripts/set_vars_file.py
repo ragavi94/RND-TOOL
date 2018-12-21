@@ -1,7 +1,17 @@
 #!/usr/bin/python
 
-with open('./scripts/connectivitymat.txt') as f:
-  node_list = f.readline().strip().split()
+import sys
+sys.path.append("./scripts/")
+from json_utils import json_util
+
+device = []
+link = []
+node_list = []
+json_obj = json_util()
+device, link, link_map = json_obj.read_input_json()
+
+for i in range(0,len(device)):
+   node_list.append(device[i]['device_name'])
 
 node_num = len(node_list)
 
